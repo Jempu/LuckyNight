@@ -8,9 +8,26 @@ namespace Ikatyros.LuckyNight
     {
         public List<Character> characters = new List<Character>();
 
+        // managed by TurnManager
+        public int currentTokens;
+        public int maximumTokens = 2;
+
         private void Start()
         {
 
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                GameObject.Find("Maestro").GetComponentInChildren<Character>().ChangeHealth(-3);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GameObject.Find("Maestro").GetComponentInChildren<Character>().ChangeHealth(2);
+            }
         }
         
         public void KillPlayer()

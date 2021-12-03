@@ -12,8 +12,12 @@ namespace Ikatyros.LuckyNight
         public List<Player> maestros = new List<Player>();
 
         public CardManager CardManager { get; private set; }
-        public HealthManager HealthManager { get; private set; }
         public Pile Pile { get; private set; }
+
+        public GameObject AgentPrefab;
+
+        private Canvas _warningCanvas;
+        private Canvas _victoryCanvas;
 
         private void Awake()
         {
@@ -28,18 +32,45 @@ namespace Ikatyros.LuckyNight
         private void Start()
         {
             CardManager = GetComponent<CardManager>();
-            HealthManager = GetComponent<HealthManager>();
             Pile = FindObjectOfType<Pile>();
+
+            _warningCanvas = GameObject.Find("Warning UI").GetComponent<Canvas>();
+            _victoryCanvas = GameObject.Find("Victory UI").GetComponent<Canvas>();
+
+            StartCoroutine(SpawnPlayersAround());
         }
 
-        private void Update()
+        private IEnumerator SpawnPlayersAround()
         {
-            
+            var parent = new GameObject("AgentSpawnerParent").transform;
+            for (var i = 0; i < agents.Count; i++)
+            {
+                var player = Instantiate(AgentPrefab, parent.position, parent.rotation, parent).transform;
+                player.name = $"Agent {i + 1}";
+                player.Translate(0, 0, -8);
+                player.SetParent(null);
+                parent.Rotate(0, 360 / (float)agents.Count, 0);
+            }
+            Destroy(parent.gameObject);
+            yield return null;
         }
 
-        private void NextTurn()
+        public void NextTurn()
         {
-            
+            // find the player with that character id
+            StartCoroutine(WarnAgent());
+        }
+
+        private IEnumerator WarnAgent()
+        {
+            _warningCanvas.enabled = true;
+            yield return new WaitForSecondsRealtime(1.5f);
+            _warningCanvas.enabled = false;
+        }
+
+        private void GameOver()
+        {
+            _victoryCanvas.enabled = true;
         }
     }
 }

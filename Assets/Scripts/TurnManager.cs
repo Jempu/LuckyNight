@@ -17,16 +17,26 @@ namespace Ikatyros.LuckyNight
 
         public List<Action> actions = new List<Action>();
 
+        // both need to be ready for turn to end
+        // check data from cloud server
+        public bool player1Ready;
+        public bool player2Ready;
+
         private void Start()
         {
             _timerTxt = GameObject.Find("UI/stats/timer").GetComponent<TMP_Text>();
             StartCoroutine(StartTimer());
         }
 
+        private bool GetTurnCompletion()
+        {
+            return player1Ready && player2Ready;
+        }
+
         private IEnumerator StartTimer()
         {
             remainingTime = maxTurnTime;
-            while (remainingTime > 0)
+            while (remainingTime > 0 && !GetTurnCompletion())
             {
                 yield return new WaitForSecondsRealtime(1f);
                 remainingTime--;
@@ -35,13 +45,12 @@ namespace Ikatyros.LuckyNight
             EndTurn();
         }
 
-        public void EndTurn()
-        {
-            ProcessActions();
-        }
+        public void EndTurn() => StartCoroutine(ProcessActions());
 
         private IEnumerator ProcessActions()
         {
+            player1Ready = false;
+            player2Ready = false;
             foreach (var action in actions)
             {
                 yield return new WaitUntil(() => action.Complete());
