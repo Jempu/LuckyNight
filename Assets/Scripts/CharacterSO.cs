@@ -10,6 +10,7 @@ namespace Ikatyros.LuckyNight
         public Sprite Portrait;
         public string Name = "Mimi";
         public int Health = 5;
+        public int MaxHealth = 5;
         public int Damage = 1;
         public int Tokens = 2;
     }

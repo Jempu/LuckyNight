@@ -7,9 +7,13 @@ namespace Ikatyros.LuckyNight
 {
     public class Character : MonoBehaviour
     {
+        public CharacterSO Stats;
+
         public int health;
         public int maxHealth = 5;
         public int damage;
+
+        public int tokens;
 
         public bool isOwner;
         public bool isAlive = true;
@@ -19,6 +23,10 @@ namespace Ikatyros.LuckyNight
 
         private void Start()
         {
+            health = Stats.Health;
+            maxHealth = Stats.MaxHealth;
+            tokens = Stats.Tokens;
+
             _canvas = GetComponentInChildren<Canvas>().transform;
             health = maxHealth;
             Sleep();

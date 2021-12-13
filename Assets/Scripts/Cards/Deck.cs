@@ -6,9 +6,29 @@ namespace Ikatyros.LuckyNight
 {
     public class Deck : MonoBehaviour
     {
-        public void SelectCard(int index)
+        [SerializeField] private List<DeckCard> _cards = new List<DeckCard>();
+        
+        private void Start()
         {
+            foreach (var card in transform.GetComponentsInChildren<DeckCard>())
+            {
+                _cards.Add(card);
+            }
+        }
 
+        public void SelectCard(DeckCard selectCard)
+        {
+            foreach (var card in _cards)
+            {
+                if (card == selectCard)
+                {
+                    card.Select();
+                }
+                else
+                {
+                    card.Deselect();
+                }
+            }
         }
     }
 }
