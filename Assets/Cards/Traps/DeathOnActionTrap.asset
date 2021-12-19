@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6fcdf9bb7a8b5c4b3120d7087d8f7e, type: 3}
-  m_Name: Card 0
+  m_Script: {fileID: 11500000, guid: d9180c1c35b54594580df0e78e2c189c, type: 3}
+  m_Name: DeathOnActionTrap
   m_EditorClassIdentifier: 
-  type: 0
-  icon: {fileID: 0}
-  power: 2
+  _tokenCost: 1
