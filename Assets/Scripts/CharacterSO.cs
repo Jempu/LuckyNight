@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    [CreateAssetMenu(menuName = "Lucid/Character")]
+    [CreateAssetMenu(menuName = "Lucky/Character")]
     public class CharacterSO : ScriptableObject
     {
         public Sprite Portrait;

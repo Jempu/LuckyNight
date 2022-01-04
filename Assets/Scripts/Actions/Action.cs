@@ -4,9 +4,10 @@ namespace Ikatyros.LuckyNight
 {
     public abstract class Action : ScriptableObject
     {
-        [SerializeField] private int _tokenCost = 1;
-        public int TokenCost => _tokenCost;
+        [SerializeField] private int _staminaCost = 1;
+        public int StaminaCost => _staminaCost;
 
-        public abstract bool Complete();
+        public abstract void OnPlay();
+        public abstract void Process();
     }
 }

@@ -4,15 +4,17 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    [CreateAssetMenu(menuName = "Lucid/Actions/Seal")]
-    public class Seal : Action
+    [CreateAssetMenu(menuName = "Lucky/Spells/Seal")]
+    public class Seal : SpellCard
     {
-
-        public override bool Complete()
+        public override void OnPlay()
         {
-            // replace the character to gallery and get a new random character
-            return true;
+            
         }
 
+        public override void Process()
+        {
+            // disable all character's actions except acting.
+        }
     }
 }

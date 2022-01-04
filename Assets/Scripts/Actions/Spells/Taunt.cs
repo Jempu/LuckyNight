@@ -4,12 +4,17 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    [CreateAssetMenu(menuName = "Lucid/Actions/Taunt")]
-    public class Taunt : Action
+    [CreateAssetMenu(menuName = "Lucky/Spells/Taunt")]
+    public class Taunt : SpellCard
     {
-        public override bool Complete()
+        public override void OnPlay()
         {
-            return true;
+
+        }
+
+        public override void Process()
+        {
+            
         }
     }
 }

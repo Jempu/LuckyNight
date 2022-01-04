@@ -35,6 +35,8 @@ namespace Ikatyros.LuckyNight
 
         private IEnumerator StartTimer()
         {
+            Debug.Log("Starting the next turn...");
+
             remainingTime = maxTurnTime;
             while (remainingTime > 0 && !GetTurnCompletion())
             {
@@ -49,15 +51,19 @@ namespace Ikatyros.LuckyNight
 
         private IEnumerator ProcessActions()
         {
+            Debug.Log("Ending turn and processing all of the turn's actions...");
+
             player1Ready = false;
             player2Ready = false;
             foreach (var action in actions)
             {
-                yield return new WaitUntil(() => action.Complete());
+                action.Process();
             }
 
             // then wait for server's "ok" response
             StartCoroutine(StartTimer());
+
+            yield return null;
         }
     }
 }

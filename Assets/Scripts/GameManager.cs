@@ -72,5 +72,7 @@ namespace Ikatyros.LuckyNight
         {
             _victoryCanvas.enabled = true;
         }
+
+        public void PlaceHolder() { }
     }
 }

@@ -4,12 +4,17 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    [CreateAssetMenu(menuName = "Lucid/Actions/Reveal")]
-    public class Reveal : Action
+    [CreateAssetMenu(menuName = "Lucky/Spells/Reveal")]
+    public class Reveal : SpellCard
     {
-         public override bool Complete()
+        public override void OnPlay()
         {
-            return true;
+            
+        }
+
+        public override void Process()
+        {
+
         }
     }
 }
