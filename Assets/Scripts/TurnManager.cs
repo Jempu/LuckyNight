@@ -7,20 +7,15 @@ namespace Ikatyros.LuckyNight
 {
     public class TurnManager : MonoBehaviour
     {
+        public int currentTurn;
         public int maxTurnTime = 12;
         public int remainingTime;
 
-        public int currentTurn;
-        public int maestroTierUpTurnCount = 10;
-
         private TMP_Text _timerTxt;
 
-        public List<Action> actions = new List<Action>();
+        public List<Player> playersInTurn = new List<Player>();
 
-        // both need to be ready for turn to end
-        // check data from cloud server
-        public bool player1Ready;
-        public bool player2Ready;
+        public List<Action> actions = new List<Action>();
 
         private void Start()
         {
@@ -28,9 +23,16 @@ namespace Ikatyros.LuckyNight
             StartCoroutine(StartTimer());
         }
 
-        private bool GetTurnCompletion()
+        private bool IsEveryPlayerTurnReady()
         {
-            return player1Ready && player2Ready;
+            foreach (var player in playersInTurn)
+            {
+                if (!player.IsTurnReady())
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private IEnumerator StartTimer()
@@ -38,7 +40,7 @@ namespace Ikatyros.LuckyNight
             Debug.Log("Starting the next turn...");
 
             remainingTime = maxTurnTime;
-            while (remainingTime > 0 && !GetTurnCompletion())
+            while (remainingTime > 0 && !IsEveryPlayerTurnReady())
             {
                 yield return new WaitForSecondsRealtime(1f);
                 remainingTime--;
@@ -52,18 +54,19 @@ namespace Ikatyros.LuckyNight
         private IEnumerator ProcessActions()
         {
             Debug.Log("Ending turn and processing all of the turn's actions...");
-
-            player1Ready = false;
-            player2Ready = false;
             foreach (var action in actions)
             {
                 action.Process();
             }
-
             // then wait for server's "ok" response
+            // ...
             StartCoroutine(StartTimer());
-
             yield return null;
+        }
+
+        public void CancelPlayerActions(Player player)
+        {
+            // remove selected actions from the turn holding player
         }
     }
 }

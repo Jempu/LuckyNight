@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    [CreateAssetMenu(menuName = "Lucky/Acts/Swap")]
-    public class Swap : Action
+    [CreateAssetMenu(menuName = "Lucky/Acts/SwapCharacter")]
+    public class SwapCharacter : Action
     {
         public override void OnPlay()
         {

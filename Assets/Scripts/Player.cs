@@ -6,28 +6,51 @@ namespace Ikatyros.LuckyNight
 {
     public class Player : MonoBehaviour
     {
+        public List<Action> actions = new List<Action>();
         public List<Character> characters = new List<Character>();
+        public List<Card> cards = new List<Card>();
+        public List<StatusEffect> ActiveStatusEffects = new List<StatusEffect>();
 
-        // managed by TurnManager
-        public int currentTokens;
-        public int maximumTokens = 2;
+        public Team AssignedTeam;
 
-        private void Start()
-        {
+        public int currentStamina;
+        public int maximumStamina = 2;
 
-        }
+        private TurnManager TurnManager => GameManager.Instance.TurnManager;
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                GameObject.Find("Maestro").GetComponentInChildren<Character>().ChangeHealth(-3);
+                GameObject.Find("Sample Maestro").GetComponentInChildren<Character>().ChangeHealth(-3);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                GameObject.Find("Maestro").GetComponentInChildren<Character>().ChangeHealth(2);
+                GameObject.Find("Sample Maestro").GetComponentInChildren<Character>().ChangeHealth(+2);
             }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                actions.Add(GameManager.Rules.Spells[0]);
+            }
+        }
+
+        public bool IsAlive()
+        {
+            foreach (var character in characters)
+            {
+                if (character.IsAlive())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsTurnReady()
+        {
+            return true;
         }
         
         public void KillPlayer()
@@ -40,21 +63,9 @@ namespace Ikatyros.LuckyNight
             // remove and hide character from board
         }
 
-        // all of player's available actions
-
-        public void Attack()
+        public void CancelActions()
         {
-
-        }
-
-        public void Defend()
-        {
-
-        }
-
-        public void Heal()
-        {
-            
+            TurnManager.CancelPlayerActions(this);
         }
 
         // Defend & Heal limited to every 3 turns.
@@ -62,21 +73,6 @@ namespace Ikatyros.LuckyNight
         public void PickCard()
         {
             GameManager.Instance.Pile.PickCard();
-        }
-
-        public void PlaceCardCharacter()
-        {
-
-        }
-
-        public void PlaceCardPile()
-        {
-
-        }
-
-        public void SwapCharacter()
-        {
-
         }
     }
 }

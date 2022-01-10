@@ -8,13 +8,15 @@ namespace Ikatyros.LuckyNight
     {
         public static GameManager Instance { get; private set; }
 
-        public List<Player> agents = new List<Player>();
-        public List<Player> maestros = new List<Player>();
+        [SerializeField] private GameRules _rules;
+        public static GameRules Rules => Instance._rules;
 
+        public TurnManager TurnManager { get; private set; }
         public CardManager CardManager { get; private set; }
         public Pile Pile { get; private set; }
 
-        public GameObject AgentPrefab;
+        public List<Player> players = new List<Player>();
+        private Dictionary<Team, int> _teamPlayerCounts = new Dictionary<Team, int>();
 
         private Canvas _warningCanvas;
         private Canvas _victoryCanvas;
@@ -31,28 +33,48 @@ namespace Ikatyros.LuckyNight
 
         private void Start()
         {
+            TurnManager = GetComponent<TurnManager>();
             CardManager = GetComponent<CardManager>();
             Pile = FindObjectOfType<Pile>();
 
             _warningCanvas = GameObject.Find("Warning UI").GetComponent<Canvas>();
             _victoryCanvas = GameObject.Find("Victory UI").GetComponent<Canvas>();
 
-            StartCoroutine(SpawnPlayersAround());
+            GetAllPlayersInScene();
         }
 
-        private IEnumerator SpawnPlayersAround()
+        private void GetAllPlayersInScene()
         {
-            var parent = new GameObject("AgentSpawnerParent").transform;
-            for (var i = 0; i < agents.Count; i++)
+            foreach (var player in FindObjectsOfType<Player>())
             {
-                var player = Instantiate(AgentPrefab, parent.position, parent.rotation, parent).transform;
-                player.name = $"Agent {i + 1}";
-                player.Translate(0, 0, -8);
-                player.SetParent(null);
-                parent.Rotate(0, 360 / (float)agents.Count, 0);
+                players.Add(player);
             }
-            Destroy(parent.gameObject);
-            yield return null;
+            // if players are found in scene, adjust that in GameManager
+            // don't spawn the players already in scene
+            // SpawnPlayers();
+        }
+
+        private void SpawnPlayers()
+        {
+            foreach (var player in players)
+            {
+                if (player.AssignedTeam == null) continue;
+                var team = player.AssignedTeam;
+                var playerCount = _teamPlayerCounts[team];
+                if (team.PlayerPrefab != null)
+                {
+                    var parent = new GameObject($"TMP_{team.TeamName}SpawnerParent").transform;
+                    for (var i = 0; i < playerCount; i++)
+                    {
+                        var prefab = Instantiate(team.PlayerPrefab, parent.position, parent.rotation, parent).transform;
+                        prefab.name = $"{team.TeamName} {i + 1}";
+                        prefab.Translate(0, 0, -8);
+                        prefab.SetParent(null);
+                        parent.Rotate(0, 360 / (float)playerCount, 0);
+                    }
+                    Destroy(parent.gameObject);
+                }
+            }
         }
 
         public void NextTurn()
@@ -72,7 +94,5 @@ namespace Ikatyros.LuckyNight
         {
             _victoryCanvas.enabled = true;
         }
-
-        public void PlaceHolder() { }
     }
 }

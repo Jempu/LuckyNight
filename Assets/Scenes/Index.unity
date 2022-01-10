@@ -5669,7 +5669,7 @@ Transform:
   m_Children:
   - {fileID: 6978350115714282363}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &934194115
 MonoBehaviour:
@@ -5683,10 +5683,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b83e16c7b25041b69a8c773671f2e45c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions: []
   characters:
   - {fileID: 6978350115714282364}
-  currentTokens: 0
-  maximumTokens: 2
+  cards: []
+  ActiveStatusEffects: []
+  AssignedTeam: {fileID: 11400000, guid: e1deda3e0f609aed8b807e2d296494ef, type: 2}
+  currentStamina: 0
+  maximumStamina: 2
 --- !u!1 &948354160
 GameObject:
   m_ObjectHideFlags: 0
@@ -8328,6 +8332,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aztec-temple
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d16467227bf3b5c2d8ba16355971b92e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d16467227bf3b5c2d8ba16355971b92e, type: 3}
 --- !u!1 &1330760017
@@ -9017,10 +9025,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b83e16c7b25041b69a8c773671f2e45c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions: []
   characters:
   - {fileID: 1616848748}
-  currentTokens: 0
-  maximumTokens: 2
+  cards: []
+  ActiveStatusEffects: []
+  AssignedTeam: {fileID: 11400000, guid: dad32342fe345033db512c62df11642c, type: 2}
+  currentStamina: 0
+  maximumStamina: 2
 --- !u!4 &1417717247
 Transform:
   m_ObjectHideFlags: 0
@@ -9428,7 +9440,7 @@ Transform:
   - {fileID: 173963608}
   - {fileID: 1561027068}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1479718422
 GameObject:
@@ -10761,7 +10773,7 @@ Transform:
   - {fileID: 1533456728}
   - {fileID: 1444429177}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1650337686
 GameObject:
@@ -12428,13 +12440,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3521447545147ed3b1be0ced4cca5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTurn: 0
   maxTurnTime: 12
   remainingTime: 0
-  currentTurn: 0
-  maestroTierUpTurnCount: 10
+  playersInTurn: []
   actions: []
-  player1Ready: 0
-  player2Ready: 0
 --- !u!114 &1894524828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12447,9 +12457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f66b42626dace02189e90d716546f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agents: []
-  maestros: []
-  AgentPrefab: {fileID: 2467090587059281641, guid: 7d6704bcc1ff13d678a3563c6c721903, type: 3}
+  _rules: {fileID: 11400000, guid: 2e2c933daa10ae831bd56f674f4eb4eb, type: 2}
+  players: []
 --- !u!4 &1894524829
 Transform:
   m_ObjectHideFlags: 0
@@ -13295,7 +13304,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1978425703
 GameObject:

@@ -32,6 +32,11 @@ namespace Ikatyros.LuckyNight
             Sleep();
         }
 
+        public bool IsAlive()
+        {
+            return health > 0;
+        }
+
         public void Wake()
         {
             isAwake = true;
