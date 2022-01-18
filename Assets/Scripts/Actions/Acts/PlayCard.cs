@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    public class Set : MonoBehaviour
+    [CreateAssetMenu(menuName = "Lucky/Acts/PlayCard")]
+    public class PlayCard : Action
     {
-        // Start is called before the first frame update
-        void Start()
+        public override void OnPlay()
         {
-        
+            
         }
 
-        // Update is called once per frame
-        void Update()
+        public override void Process()
         {
-        
+            // play the card and the action to the player
+            
         }
     }
 }

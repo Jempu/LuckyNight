@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ikatyros.LuckyNight
 {
     [CreateAssetMenu(menuName = "Lucky/Traps/FullCounterTrap")]
-    public class FullCounterTrap : Card
+    public class FullCounterTrap : TrapCard
     {
         public override void OnPlay()
         {

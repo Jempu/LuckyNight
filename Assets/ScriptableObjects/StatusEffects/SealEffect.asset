@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d72faffea2ce4debed7f1b42d22081, type: 3}
-  m_Name: Spite
+  m_Script: {fileID: 11500000, guid: 570eb8cc87b6b970dadd4822a40c63d2, type: 3}
+  m_Name: SealEffect
   m_EditorClassIdentifier: 
-  _staminaCost: 1
-  autoTarget: 1
-  statusEffects: []
-  id: 0
-  icon: {fileID: 0}
-  power: 0
-  duration: 0
+  duration: 1

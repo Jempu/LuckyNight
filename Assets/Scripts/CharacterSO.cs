@@ -12,6 +12,6 @@ namespace Ikatyros.LuckyNight
         public int Health = 5;
         public int MaxHealth = 5;
         public int Damage = 1;
-        public int Tokens = 2;
+        public int Stamina = 2;
     }
 }

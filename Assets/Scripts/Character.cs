@@ -13,7 +13,7 @@ namespace Ikatyros.LuckyNight
         public int maxHealth = 5;
         public int damage;
 
-        public int tokens;
+        public int stamina;
 
         public bool isOwner;
         public bool isAlive = true;
@@ -25,7 +25,7 @@ namespace Ikatyros.LuckyNight
         {
             health = Stats.Health;
             maxHealth = Stats.MaxHealth;
-            tokens = Stats.Tokens;
+            stamina = Stats.Stamina;
 
             _canvas = GetComponentInChildren<Canvas>().transform;
             health = maxHealth;

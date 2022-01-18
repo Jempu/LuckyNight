@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    [CreateAssetMenu(menuName = "Lucky/Team")]
-    public class Team : ScriptableObject
+    [System.Serializable]
+    public class Team
     {
         public string TeamName = "Agent";
         [Range(0, 40)] public int TeamLimit;
         public GameObject PlayerPrefab;
         
-        // additional benefits from playing turns
+        public bool UseStaticSeat = true;
         public int TierUpTurnCount = 10;
 
         // when processing actions, the index is used to order teams

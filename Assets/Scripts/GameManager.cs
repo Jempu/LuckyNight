@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,10 @@ namespace Ikatyros.LuckyNight
         public CardManager CardManager { get; private set; }
         public Pile Pile { get; private set; }
 
-        public List<Player> players = new List<Player>();
-        private Dictionary<Team, int> _teamPlayerCounts = new Dictionary<Team, int>();
+        public List<Player> Players = new List<Player>();
+        internal Dictionary<Team, int> TeamIndexes = new Dictionary<Team, int>();
+        internal Dictionary<Team, int> TeamPlayerCounts = new Dictionary<Team, int>();
+        internal Dictionary<Player, int> IndexOfPlayerInTeam = new Dictionary<Player, int>();
 
         private Canvas _warningCanvas;
         private Canvas _victoryCanvas;
@@ -41,26 +44,38 @@ namespace Ikatyros.LuckyNight
             _victoryCanvas = GameObject.Find("Victory UI").GetComponent<Canvas>();
 
             GetAllPlayersInScene();
+
+            SetIndexOfPlayersInTeams();
+            SetTeamOrderByRules();
         }
 
         private void GetAllPlayersInScene()
         {
             foreach (var player in FindObjectsOfType<Player>())
             {
-                players.Add(player);
+                Players.Add(player);
+                if (!TeamPlayerCounts.ContainsKey(player.AssignedTeam))
+                {
+                    TeamPlayerCounts.Add(player.AssignedTeam, 0);
+                }
+                TeamPlayerCounts[player.AssignedTeam] += 1;
+            }
+            foreach (var team in TeamPlayerCounts)
+            {
+                Debug.Log(team.Value);
             }
             // if players are found in scene, adjust that in GameManager
             // don't spawn the players already in scene
-            // SpawnPlayers();
+            SpawnPlayers();
         }
 
         private void SpawnPlayers()
         {
-            foreach (var player in players)
+            foreach (var player in Players)
             {
                 if (player.AssignedTeam == null) continue;
                 var team = player.AssignedTeam;
-                var playerCount = _teamPlayerCounts[team];
+                var playerCount = TeamPlayerCounts[team];
                 if (team.PlayerPrefab != null)
                 {
                     var parent = new GameObject($"TMP_{team.TeamName}SpawnerParent").transform;
@@ -74,16 +89,37 @@ namespace Ikatyros.LuckyNight
                     }
                     Destroy(parent.gameObject);
                 }
+                player.ResetStamina();
+            }
+            TurnManager.SetTeamSeats();
+        }
+
+        private void SetIndexOfPlayersInTeams()
+        {
+            foreach (var player in Players)
+            {
+                IndexOfPlayerInTeam.Add(player, Rules.Teams.IndexOf(player.AssignedTeam));
+            }
+        }
+
+        private void SetTeamOrderByRules()
+        {
+            foreach (var team in Rules.Teams)
+            {
+                if (!TeamIndexes.ContainsKey(team))
+                {
+                    TeamIndexes.Add(team, TeamIndexes.Count);
+                }
             }
         }
 
         public void NextTurn()
         {
             // find the player with that character id
-            StartCoroutine(WarnAgent());
+            StartCoroutine(WarnPlayerAboutThreat());
         }
 
-        private IEnumerator WarnAgent()
+        private IEnumerator WarnPlayerAboutThreat()
         {
             _warningCanvas.enabled = true;
             yield return new WaitForSecondsRealtime(1.5f);

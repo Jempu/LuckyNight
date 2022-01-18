@@ -11,12 +11,15 @@ namespace Ikatyros.LuckyNight
         public List<Card> cards = new List<Card>();
         public List<StatusEffect> ActiveStatusEffects = new List<StatusEffect>();
 
-        public Team AssignedTeam;
+        [HideInInspector] public Team AssignedTeam;
+        public int AssignedSeat;
 
         public int currentStamina;
         public int maximumStamina = 2;
 
         private TurnManager TurnManager => GameManager.Instance.TurnManager;
+
+        public PlayerHUD hud;
 
         private void Update()
         {
@@ -30,10 +33,16 @@ namespace Ikatyros.LuckyNight
                 GameObject.Find("Sample Maestro").GetComponentInChildren<Character>().ChangeHealth(+2);
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Extensions.IsNumKey())
             {
-                actions.Add(GameManager.Rules.Spells[0]);
+                SelectInHand(Extensions.GetNumKey());
             }
+        }
+
+        private void SelectInHand(int index)
+        {
+            hud?.SelectInHand(index);
+            // AddAction(GameManager.Rules.Spells[0]);
         }
 
         public bool IsAlive()
@@ -50,7 +59,16 @@ namespace Ikatyros.LuckyNight
 
         public bool IsTurnReady()
         {
-            return true;
+            var cost = 0;
+            foreach (var action in actions)
+            {
+                cost += action.StaminaCost;
+                if (cost >= characters[GameManager.Instance.TurnManager.currentTurn].stamina)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         
         public void KillPlayer()
@@ -63,6 +81,14 @@ namespace Ikatyros.LuckyNight
             // remove and hide character from board
         }
 
+        private void AddAction(Action action)
+        {
+            if (currentStamina - action.StaminaCost < 0) return;
+            currentStamina =- action.StaminaCost;
+            actions.Add(action);
+            TurnManager.PlayersAndTheirActions[this].Add(action);
+        }
+
         public void CancelActions()
         {
             TurnManager.CancelPlayerActions(this);
@@ -73,6 +99,11 @@ namespace Ikatyros.LuckyNight
         public void PickCard()
         {
             GameManager.Instance.Pile.PickCard();
+        }
+        
+        public void ResetStamina()
+        {
+            currentStamina = maximumStamina;
         }
     }
 }

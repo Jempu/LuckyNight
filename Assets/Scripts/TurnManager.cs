@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 
@@ -13,9 +14,14 @@ namespace Ikatyros.LuckyNight
 
         private TMP_Text _timerTxt;
 
+        private List<Player> _players => GameManager.Instance.Players;
         public List<Player> playersInTurn = new List<Player>();
 
+        public Dictionary<Player, List<Action>> PlayersAndTheirActions = new Dictionary<Player, List<Action>>();
+
         public List<Action> actions = new List<Action>();
+
+        internal bool CanPlay { get; private set; }
 
         private void Start()
         {
@@ -23,8 +29,29 @@ namespace Ikatyros.LuckyNight
             StartCoroutine(StartTimer());
         }
 
+        internal void SetTeamSeats()
+        {
+            // first set seats
+            for (var i = 0; i < _players.Count; i++)
+            {
+                var player = _players[i];
+                player.AssignedSeat = i;
+                // var player2 = players[i + 1];
+                // if (player.AssignedTeam[GameManager.Instance.TeamPlayerCounts] < player.)
+                // {
+                //     Mathf.Round();
+                // }
+            }
+            // second set playersInTurn
+            foreach (var player in _players)
+            {
+                playersInTurn.Add(player);
+            }
+        }
+
         private bool IsEveryPlayerTurnReady()
         {
+            if (playersInTurn.Count == 0) return false;
             foreach (var player in playersInTurn)
             {
                 if (!player.IsTurnReady())
@@ -37,12 +64,20 @@ namespace Ikatyros.LuckyNight
 
         private IEnumerator StartTimer()
         {
-            Debug.Log("Starting the next turn...");
-
+            CanPlay = true;
+            Debug.Log("TurnManager: Starting the next turn...");
+            foreach (var player in _players)
+            {
+                if (!player.AssignedTeam.UseStaticSeat)
+                {
+                    player.AssignedSeat += 1;
+                }
+            }
             remainingTime = maxTurnTime;
-            while (remainingTime > 0 && !IsEveryPlayerTurnReady())
+            while (remainingTime > 0)
             {
                 yield return new WaitForSecondsRealtime(1f);
+                if (IsEveryPlayerTurnReady()) break;
                 remainingTime--;
                 _timerTxt.text = remainingTime.ToString();
             }
@@ -53,15 +88,61 @@ namespace Ikatyros.LuckyNight
 
         private IEnumerator ProcessActions()
         {
-            Debug.Log("Ending turn and processing all of the turn's actions...");
-            foreach (var action in actions)
+            CanPlay = false;
+            Debug.Log("TurnManager: Ending turn and processing all of the turn's actions...");
+
+            var tempOrderedPlayerList = new List<Player>();
+
+            /*
+                example of the order of processing:
+                2 agents
+                1 maestro
+
+                A1
+                A2
+                M1
+                A1
+                A2
+                M2
+                ...
+
+                1 agents
+                2 maestros
+                A1
+                M1
+                M2
+                A1
+                M1
+                M2
+                ...
+
+                READY: TEAM: ACTIONS
+                M1 | 1 | parry
+                A1 | 0 | attack, heal
+                M2 | 1 | heal, taunt, spell
+            */
+
+            foreach (var player in playersInTurn)
             {
-                action.Process();
+                foreach (var action in player.actions)
+                {
+                    Debug.Log($"TurnManager: Processing an action: {action.name}...");
+                    action.Process();
+                    yield return new WaitForSecondsRealtime(1f);
+                }
+                player.actions.Clear();
+                player.ResetStamina();
             }
+            Debug.Log($"TurnManager: Done processing...");
             // then wait for server's "ok" response
-            // ...
+            yield return new WaitForSecondsRealtime(2f);
             StartCoroutine(StartTimer());
-            yield return null;
+        }
+
+        public void AddAction(Player player, Action action)
+        {
+            // if that player has enough stamina ...
+            PlayersAndTheirActions.Add(player, actions);
         }
 
         public void CancelPlayerActions(Player player)

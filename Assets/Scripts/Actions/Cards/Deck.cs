@@ -16,6 +16,8 @@ namespace Ikatyros.LuckyNight
             }
         }
 
+        public void SelectCard(int index) => SelectCard(_cards[index]);
+
         public void SelectCard(DeckCard selectCard)
         {
             foreach (var card in _cards)

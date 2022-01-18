@@ -13,16 +13,18 @@ namespace Ikatyros.LuckyNight
         public List<TrapCard> Traps = new List<TrapCard>();
         public List<Item> Items = new List<Item>();
 
-        // Turns
+        public int MaxHandCardCount = 3;
+
+        [Header("Turns")]
         public int TurnDuration = 12;
 
         public int CardActionCost = 1;
         public int CharacterActionCost = 1;
 
-        // Networking
+        [Header("Networking")]
         public int MaxRoomSize = 20;
 
-        // Rarity
+        [Header("Rarity")]
         public float SpellCardRarity = 20f;
         public float TrapCardRarity = 15f;
 

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a771840f8ab60007d96adf96ae5e2170, type: 3}
-  m_Name: GameRules - Default 1v20
+  m_Name: GameRules - Strict 1v20
   m_EditorClassIdentifier: 
   Teams:
-  - TeamName: Agent
+  - TeamName: Agentit
     TeamLimit: 0
-    PlayerPrefab: {fileID: 7580853991758877340, guid: 82ecf4dd4417cd99fb794b8cd8d27d95, type: 3}
+    PlayerPrefab: {fileID: 0}
     UseStaticSeat: 1
     TierUpTurnCount: 10
     TurnActionOrderDelay: 0
-  - TeamName: Maestro
+  - TeamName: Maestrot
     TeamLimit: 1
-    PlayerPrefab: {fileID: 4861892111076723168, guid: 957f6465b238b327789f1e505394178b, type: 3}
-    UseStaticSeat: 0
+    PlayerPrefab: {fileID: 0}
+    UseStaticSeat: 1
     TierUpTurnCount: 10
     TurnActionOrderDelay: 0
   Characters:
@@ -38,11 +38,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e0170fce6a8dc50a9ab1a5490c09632, type: 2}
   - {fileID: 11400000, guid: 6b16ff686ff740542a7d4853287e578e, type: 2}
   Items:
-  - {fileID: 11400000, guid: 03ab7087566fb5ed494f5988beab336e, type: 2}
   - {fileID: 11400000, guid: bc3d59ffd016f643eb3f4df81304202c, type: 2}
   - {fileID: 11400000, guid: 188fc78b29c6b5c5583235fe56371f41, type: 2}
   MaxHandCardCount: 3
-  TurnDuration: 12
+  TurnDuration: 10
   CardActionCost: 1
   CharacterActionCost: 2
   MaxRoomSize: 20
