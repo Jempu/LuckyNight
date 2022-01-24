@@ -9,7 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9180c1c35b54594580df0e78e2c189c, type: 3}
-  m_Name: FullCounterTrap
+  m_Script: {fileID: 11500000, guid: d4d72faffea2ce4debed7f1b42d22081, type: 3}
+  m_Name: Spite
   m_EditorClassIdentifier: 
-  _tokenCost: 1
+  _staminaCost: 1
+  autoTarget: 1
+  statusEffects: []
+  id: 0
+  icon: {fileID: 21300000, guid: f0395f18a25ed968e95ccec1eb624537, type: 3}
+  power: 0
+  duration: 0
+  ShortName: SPITE

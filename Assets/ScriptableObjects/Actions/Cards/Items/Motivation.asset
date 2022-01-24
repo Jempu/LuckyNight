@@ -9,7 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc2b7518b90478d4dbe9092b1e156a59, type: 3}
-  m_Name: TauntSpell
+  m_Script: {fileID: 11500000, guid: e7577b76350ff108aa9f61889eaac16d, type: 3}
+  m_Name: Motivation
   m_EditorClassIdentifier: 
-  _tokenCost: 1
+  _staminaCost: 1
+  autoTarget: 1
+  statusEffects: []
+  id: 0
+  icon: {fileID: 21300000, guid: bac00b9d1666fa3508f9b67932f690b1, type: 3}
+  power: 0
+  duration: 0
+  ShortName: MOTIV
+  type: 1

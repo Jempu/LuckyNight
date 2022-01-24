@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b1cc18624bb957369734998e3271da5, type: 3}
-  m_Name: ItemTrap
+  m_Script: {fileID: 11500000, guid: 38bb81ac72bcaa14b9f0188f5e3c3994, type: 3}
+  m_Name: SealSpell
   m_EditorClassIdentifier: 
   _staminaCost: 1
   autoTarget: 1
   statusEffects: []
   id: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a13f15d0cab5110619e7624a4b3434b5, type: 3}
   power: 0
   duration: 0
+  ShortName: SEAL

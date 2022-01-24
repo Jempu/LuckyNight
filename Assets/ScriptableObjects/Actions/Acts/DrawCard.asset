@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d72faffea2ce4debed7f1b42d22081, type: 3}
-  m_Name: Spite
+  m_Script: {fileID: 11500000, guid: 9bee2bbb4906a7a7a81244aa4a5d8604, type: 3}
+  m_Name: DrawCard
   m_EditorClassIdentifier: 
   _staminaCost: 1
   autoTarget: 1
   statusEffects: []
-  id: 0
-  icon: {fileID: 0}
-  power: 0
-  duration: 0

@@ -6,11 +6,14 @@ namespace Ikatyros.LuckyNight
 {
     public class PlayerHUD : MonoBehaviour
     {
+        internal Player owner;
         private Deck _deck;
 
-        private void Start()
+        internal void Ready(Player owner)
         {
+            this.owner = owner;
             _deck = transform.GetComponentInChildren<Deck>();
+            _deck.Ready(this);
         }
 
         public void SelectInHand(int index) => _deck.SelectCard(index);

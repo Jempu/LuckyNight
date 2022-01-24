@@ -12,8 +12,7 @@ namespace Ikatyros.LuckyNight
         [SerializeField] private GameRules _rules;
         public static GameRules Rules => Instance._rules;
 
-        public TurnManager TurnManager { get; private set; }
-        public CardManager CardManager { get; private set; }
+        public static TurnManager TurnManager { get; private set; }
         public Pile Pile { get; private set; }
 
         public List<Player> Players = new List<Player>();
@@ -37,7 +36,6 @@ namespace Ikatyros.LuckyNight
         private void Start()
         {
             TurnManager = GetComponent<TurnManager>();
-            CardManager = GetComponent<CardManager>();
             Pile = FindObjectOfType<Pile>();
 
             _warningCanvas = GameObject.Find("Warning UI").GetComponent<Canvas>();

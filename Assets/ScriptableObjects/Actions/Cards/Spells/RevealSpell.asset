@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7577b76350ff108aa9f61889eaac16d, type: 3}
-  m_Name: Armor
+  m_Script: {fileID: 11500000, guid: d01dab172bfff264d81fe3d2885cafde, type: 3}
+  m_Name: RevealSpell
   m_EditorClassIdentifier: 
   _staminaCost: 1
+  autoTarget: 1
+  statusEffects:
+  - {fileID: 0}
   id: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c8549f4dbf6a14842b1bbe04c5097330, type: 3}
   power: 0
   duration: 0
-  type: 0
+  ShortName: REVEAL

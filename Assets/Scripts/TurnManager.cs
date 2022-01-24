@@ -9,8 +9,10 @@ namespace Ikatyros.LuckyNight
     public class TurnManager : MonoBehaviour
     {
         public int currentTurn;
-        public int maxTurnTime = 12;
         public int remainingTime;
+
+        private bool _updateTimer;
+        private int _maxTurnTime;
 
         private TMP_Text _timerTxt;
 
@@ -25,8 +27,22 @@ namespace Ikatyros.LuckyNight
 
         private void Start()
         {
-            _timerTxt = GameObject.Find("UI/stats/timer").GetComponent<TMP_Text>();
-            StartCoroutine(StartTimer());
+            _timerTxt = FindObjectOfType<PlayerHUD>().transform.Find("stats/timer").GetComponent<TMP_Text>();
+            StartTimer();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                foreach (var player in PlayersAndTheirActions)
+                {
+                    foreach (var action in player.Value)
+                    {
+                        Debug.Log($"{player.Key.name}: {action.name}");
+                    }
+                }
+            }
         }
 
         internal void SetTeamSeats()
@@ -45,6 +61,7 @@ namespace Ikatyros.LuckyNight
             // second set playersInTurn
             foreach (var player in _players)
             {
+                PlayersAndTheirActions.Add(player, new List<Action>());
                 playersInTurn.Add(player);
             }
         }
@@ -62,7 +79,19 @@ namespace Ikatyros.LuckyNight
             return true;
         }
 
-        private IEnumerator StartTimer()
+        private void StartTimer()
+        {
+            _updateTimer = GameManager.Rules.TurnDuration > 0;
+            _maxTurnTime = _updateTimer ? GameManager.Rules.TurnDuration : 300000;
+            if (_updateTimer)
+            {
+                StartCoroutine(StartTimerCoroutine());
+                return;
+            }
+            _timerTxt.text = "∞";
+        }
+
+        private IEnumerator StartTimerCoroutine()
         {
             CanPlay = true;
             Debug.Log("TurnManager: Starting the next turn...");
@@ -73,7 +102,7 @@ namespace Ikatyros.LuckyNight
                     player.AssignedSeat += 1;
                 }
             }
-            remainingTime = maxTurnTime;
+            remainingTime = _maxTurnTime;
             while (remainingTime > 0)
             {
                 yield return new WaitForSecondsRealtime(1f);
@@ -136,18 +165,28 @@ namespace Ikatyros.LuckyNight
             Debug.Log($"TurnManager: Done processing...");
             // then wait for server's "ok" response
             yield return new WaitForSecondsRealtime(2f);
-            StartCoroutine(StartTimer());
+            StartCoroutine(StartTimerCoroutine());
         }
 
-        public void AddAction(Player player, Action action)
+        public void AddPlayerAction(Player player, Action action)
         {
-            // if that player has enough stamina ...
-            PlayersAndTheirActions.Add(player, actions);
+            if (player.AddAction(action))
+            {
+                PlayersAndTheirActions[player].Add(action);
+            }
+        }
+
+        public void RemovePlayerAction(Player player, Action action)
+        {
+            PlayersAndTheirActions[player].Remove(action);
+            player.actions.Remove(action);
         }
 
         public void CancelPlayerActions(Player player)
         {
             // remove selected actions from the turn holding player
+            PlayersAndTheirActions[player].Clear();
+            player.actions.Clear();
         }
     }
 }

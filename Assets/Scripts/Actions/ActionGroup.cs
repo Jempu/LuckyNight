@@ -11,7 +11,7 @@ namespace Ikatyros.LuckyNight
         
         private Transform _tokenHolder;
 
-        protected void SetTokens()
+        protected void SetStamina()
         {
             if (_tokenHolder == null)
             {

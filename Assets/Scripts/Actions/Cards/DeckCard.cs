@@ -12,15 +12,15 @@ namespace Ikatyros.LuckyNight
         public Card Base => _base;
 
         private Deck _deck;
-        private Outline _outline;
+        private Image _outline;
 
         public bool isSelected;
 
-        private void Start()
+        internal void Ready(Deck parent, Card _base)
         {
-            _deck = GetComponentInParent<Deck>();
-            _outline = GetComponentInChildren<Outline>();
-            
+            this._base = _base;
+            _deck = parent;
+            _outline = transform.Find("outline").GetComponent<Image>();
             Deselect();
         }
 
@@ -29,21 +29,33 @@ namespace Ikatyros.LuckyNight
             _deck.SelectCard(this);
         }
 
-        public void Select()
+        public void Click()
         {
             if (isSelected)
             {
-                // process placing the card as it has been double clicked
+                Play();
                 return;
             }
+            Select();
+        }
+
+        private void Select()
+        {
+            Debug.Log($"Selected card {_base.name}");
             isSelected = true;
-            _outline.enabled = true;
+            if (_outline != null) _outline.enabled = true;
+        }
+
+        private void Play()
+        {
+            Debug.Log($"Played card {_base.name}");
+            _deck.PlayCard(this);
         }
 
         public void Deselect()
         {
-            isSelected = true;
-            _outline.enabled = false;
+            isSelected = false;
+            if (_outline != null) _outline.enabled = false;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Ikatyros.LuckyNight
         public Sprite icon;
         public int power;
         public int duration;
-        public string Name;
-        public string FullName;
+        public string ShortName;
     }
 }

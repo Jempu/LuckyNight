@@ -8,22 +8,7 @@ namespace Ikatyros.LuckyNight
     {
         private void Start()
         {
-            SetTokens();
-        }
-
-        private void Attack()
-        {
-            
-        }
-
-        private void Defend()
-        {
-            
-        }
-
-        private void Heal()
-        {
-            
+            SetStamina();
         }
     }
 }

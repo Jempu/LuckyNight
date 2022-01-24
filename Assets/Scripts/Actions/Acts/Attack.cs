@@ -4,18 +4,17 @@ using UnityEngine;
 
 namespace Ikatyros.LuckyNight
 {
-    public class Attack : MonoBehaviour
+    [CreateAssetMenu(menuName = "Lucky/Acts/Attack")]
+    public class Attack : Action
     {
-        // Start is called before the first frame update
-        void Start()
+        public override void OnPlay()
         {
-        
+            
         }
 
-        // Update is called once per frame
-        void Update()
+        public override void Process()
         {
-        
+            
         }
     }
 }

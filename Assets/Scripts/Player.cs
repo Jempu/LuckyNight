@@ -17,9 +17,14 @@ namespace Ikatyros.LuckyNight
         public int currentStamina;
         public int maximumStamina = 2;
 
-        private TurnManager TurnManager => GameManager.Instance.TurnManager;
+        private TurnManager TurnManager => GameManager.TurnManager;
 
         public PlayerHUD hud;
+
+        private void Start()
+        {
+            if (hud != null) hud.Ready(this);
+        }
 
         private void Update()
         {
@@ -31,6 +36,11 @@ namespace Ikatyros.LuckyNight
             if (Input.GetKeyDown(KeyCode.E))
             {
                 GameObject.Find("Sample Maestro").GetComponentInChildren<Character>().ChangeHealth(+2);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                CancelActions();
             }
 
             if (Extensions.IsNumKey())
@@ -63,7 +73,7 @@ namespace Ikatyros.LuckyNight
             foreach (var action in actions)
             {
                 cost += action.StaminaCost;
-                if (cost >= characters[GameManager.Instance.TurnManager.currentTurn].stamina)
+                if (cost >= characters[TurnManager.currentTurn].stamina)
                 {
                     return true;
                 }
@@ -81,12 +91,13 @@ namespace Ikatyros.LuckyNight
             // remove and hide character from board
         }
 
-        private void AddAction(Action action)
+        public bool AddAction(Action action)
         {
-            if (currentStamina - action.StaminaCost < 0) return;
+            if (currentStamina - action.StaminaCost < 0) return false;
             currentStamina =- action.StaminaCost;
             actions.Add(action);
             TurnManager.PlayersAndTheirActions[this].Add(action);
+            return true;
         }
 
         public void CancelActions()

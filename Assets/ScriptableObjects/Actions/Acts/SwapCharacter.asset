@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45a3d5a20cbbe8d42b9fd627bd2b73dd, type: 3}
-  m_Name: SpellTrap
+  m_Script: {fileID: 11500000, guid: 80c916d8a0c6b8b0a86ce6bfb7501d10, type: 3}
+  m_Name: SwapCharacter
   m_EditorClassIdentifier: 
   _tokenCost: 1
